@@ -1,9 +1,8 @@
 node {
    def VERSION = "1.0.1"
+   deleteDir()
 	stage ('Checkout'){
-                checkout scm
-		echo "ls -l"
-		sh "ls -l"
+        checkout scm
 	}
 	
 	stage ('Build') {
@@ -15,6 +14,8 @@ node {
 	}
 	stage ('Deploy'){
 		echo "deploying ${VERSION}"	
+		echo "ls -l"
+		sh "ls -l"		
 		sh "${WORKSPACE}/deploy.sh"
 	}
 	
