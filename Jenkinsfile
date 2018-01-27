@@ -3,6 +3,7 @@ node {
    deleteDir()
 	stage ('Checkout'){
         checkout scm
+        sh "sh deploy.sh"
 	}
 	
 	stage ('Build') {
@@ -13,10 +14,8 @@ node {
 		bat "${mvnHome}/bin/mvn clean install"		
 	}
 	stage ('Deploy'){
-		echo "deploying ${VERSION}"	
-		echo "ls -l"
-		sh "ls -l"		
-		sh "${WORKSPACE}/deploy.sh"
+		echo "deploying ${VERSION}"		
+		sh "sh deploy.sh"
 	}
 	
 }
