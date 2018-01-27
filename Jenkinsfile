@@ -1,7 +1,9 @@
 node {
    def VERSION = "1.0.1"
 	stage ('Checkout'){
-		checkout scm
+                checkout scm
+		echo "ls -l"
+		sh "ls -l"
 	}
 	
 	stage ('Build') {
