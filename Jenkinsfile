@@ -1,19 +1,19 @@
 node {
-   def VERSION="1.0.1"
+   def VERSION = "1.0.1"
 	stage ('Checkout'){
 		checkout scm
 	}
 	
 	stage ('Build') {
 		def mvnHome = tool 'M3'
-		echo 'build $VERSION'	
+		echo "building ${VERSION}"	
 		// Run the maven build
-		echo 'sh ${mvnHome}/bin/mvn clean install'
+		echo "sh ${mvnHome}/bin/mvn clean install"
 		bat "${mvnHome}/bin/mvn clean install"		
 	}
 	stage ('Deploy'){
-		echo 'deploy $VERSION'
-		bat "deploy.sh"
+		echo "deploying ${VERSION}"	
+		sh "${WORKSPACE}/deploy.sh"
 	}
 	
 }
