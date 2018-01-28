@@ -33,8 +33,8 @@ stages{
 		steps {
 			echo "building ${VERSION} ${ENV}"	
 			// Run the maven build and upload artifacts to nexus repository
-			echo "sh mvn clean deploy"
-			sh "mvn clean deploy"
+			echo "sh mvn clean install"
+			sh "mvn clean install"
 		}
 	}
 	stage ('Deploy'){
