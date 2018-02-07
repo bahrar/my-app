@@ -25,6 +25,9 @@ agent any
 stages{  
 	stage ('Checkout'){
 		steps {
+		
+		checkout scm
+		
 		sh '''
         echo "CREDS $CREDS"
         echo "CREDS_USR $CREDS_USR"
@@ -35,7 +38,7 @@ stages{
           // get groovy variable VERSION
           VERSION = readFile('version.txt').trim()
         }		
-        checkout scm
+        
         //sh "sh deploy.sh"
 		}
 	}
