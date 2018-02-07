@@ -6,9 +6,9 @@ agent any
 		string (
 			name: "PLAY",
 			defaultValue:  "main.yml",
-			description: "playbook à exécuter"
+			description: "playbook a exÃ©cuter"
 		)
-		choice(name: 'ENV', choices: 'STAGE\nPROD', description: 'env où déployer')
+		choice(name: 'ENV', choices: 'STAGE\nPROD', description: 'env oÃ¹ dÃ©ployer')
   }
   
   tools {
@@ -18,14 +18,25 @@ agent any
   
   environment {
     ENV = "PIC"
-	VERSION = "1.0.1"
+	VERSION_FILE = "version.txt"
+    CREDS = credentials('deploy')
   }
  
 stages{  
 	stage ('Checkout'){
 		steps {
+		sh '''
+        echo "CREDS $CREDS"
+        echo "CREDS_USR $CREDS_USR"
+        echo "CREDS_PSW $CREDS_PSW" 
+		sh generate-branch-version.sh version.txt
+        '''
+        script {
+          // get groovy variable VERSION
+          VERSION = readFile('version.txt').trim()
+        }		
         checkout scm
-        sh "sh deploy.sh"
+        //sh "sh deploy.sh"
 		}
 	}
 	
@@ -34,13 +45,13 @@ stages{
 			echo "building ${VERSION} ${ENV}"	
 			// Run the maven build and upload artifacts to nexus repository
 			echo "sh mvn clean install"
-			sh "mvn clean install"
+			// sh "mvn clean install"
 		}
 	}
 	stage ('Deploy'){
 		steps {
 		echo "sh deploy.sh ${VERSION}"		
-		sh "sh deploy.sh ${VERSION}"
+		// sh "sh deploy.sh ${CREDS_USR}"
 		}
 	}
 	stage ('Acceptance-Test'){
